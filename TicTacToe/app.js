@@ -4,6 +4,7 @@ let newGameBtn = document.querySelector("#new-btn");
 let msgContainer = document.querySelector(".msg-container");
 let msg = document.querySelector("#msg");
 let turnO = true;
+let count = 0; //to track the draw
 
 const winPattern = [
   [0, 1, 2],
@@ -19,8 +20,6 @@ const winPattern = [
 //adding event listner in each box to perform some action
 boxes.forEach((box) => {
   box.addEventListener("click", () => {
-    console.log("Box was clicked");
-    // box.innerText = "";
     if (turnO) {
       // we are checking if its turn of player O , true
       box.innerText = "O";
@@ -31,10 +30,21 @@ boxes.forEach((box) => {
       turnO = true;
     }
     box.disabled = true;
+    count ++;
 
-    checkWinner();
+    let isWinner = checkWinner();
+    if(count === 9 && !isWinner){
+        gameDraw();
+
+    }
   });
 });
+
+const gameDraw = ()=>{
+    msg.innerText = "Game was draw.";
+    msgContainer.classList.remove("hide");
+    disableBoxes();
+}
 
 const disableBoxes = () => {
   for (let box of boxes) {
